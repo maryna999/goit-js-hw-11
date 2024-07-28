@@ -3,6 +3,12 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
+const lightbox = new SimpleLightbox('.gallery a', { captions: true,
+    captionsData: 'alt',
+    captionDelay: 250,
+    close: true,
+    showCounter: true,
+    enableKeyboard: true, });
 
 export function renderImages(images) {
     const gallery = document.querySelector('.gallery');
@@ -18,24 +24,12 @@ export function renderImages(images) {
         </a>
     `).join('');
 
-    const lightbox = new SimpleLightbox('.gallery a', { /* options */ });
+    lightbox.refresh();
+}
 
-    // Додати alt текст до кожного зображення в lightbox
-    lightbox.on('shown.simplelightbox', function () {
-        const currentImage = document.querySelector('.sl-image img');
-        const altText = currentImage.alt;
-        const altDiv = document.createElement('div');
-        altDiv.classList.add('alt-text');
-        altDiv.textContent = altText;
-        document.querySelector('.sl-wrapper').appendChild(altDiv);
-    });
-
-    lightbox.on('close.simplelightbox', function () {
-        const altDiv = document.querySelector('.alt-text');
-        if (altDiv) {
-            altDiv.remove();
-        }
-    });
+export function clearGallery() {
+    const gallery = document.querySelector('.gallery');
+    gallery.innerHTML = '';
 }
 
 export function showError(message) {
